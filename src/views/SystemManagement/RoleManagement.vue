@@ -32,18 +32,18 @@
         <el-form-item label="id" v-if="EidtFlag">
           <el-input v-model="form.id" autocomplete="off" disabled=""></el-input>
         </el-form-item>
-        <el-form-item label="Name">
+        <el-form-item label="名称">
           <el-input v-model="form.name" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="Code">
+        <el-form-item label="编号">
           <el-input v-model="form.code" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="description">
+        <el-form-item label="描述">
           <el-input v-model="form.description" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button>取 消</el-button>
+        <el-button @click="HandleClose">取 消</el-button>
         <el-button type="primary" @click="submit('form')">确 定</el-button>
       </div>
     </el-dialog>
@@ -119,6 +119,9 @@ export default {
       } finally {
         this.HandleGetRole();
       }
+    },
+    HandleClose() {
+      this.addRole = false;
     }
   }
 };

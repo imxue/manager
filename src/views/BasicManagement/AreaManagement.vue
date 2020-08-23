@@ -20,8 +20,6 @@
       :data="Region"
       node-key="value"
       :filter-node-method="filterNode"
-      :default-expanded-keys="expanded"
-      :render-content="renderContent"
     >
     </el-tree>
   </div>
@@ -188,60 +186,60 @@ export default {
         });
       });
       return array;
-    },
-    renderContent(h, { node, data }) {
-      if (node.level === 1) {
-        return (
-          <span style="flex: 1; display: flex; align-items: center; justify-content: space-between; font-size: 14px; padding-right: 8px;">
-            <span>
-              <span>{node.label}</span>
-            </span>
-          </span>
-        );
-      }
-      if (node.level > 4) {
-        return (
-          <span style="flex: 1; display: flex; align-items: center; justify-content: space-between; font-size: 14px; padding-right: 8px;">
-            <span>
-              <span>{node.label}</span>
-            </span>
-            <span>
-              <el-button
-                style="font-size: 12px;"
-                type="text"
-                on-click={() => this.remove(node, data)}
-              >
-                删除
-              </el-button>
-            </span>
-          </span>
-        );
-      } else {
-        return (
-          <span style="flex: 1; display: flex; align-items: center; justify-content: space-between; font-size: 14px; padding-right: 8px;">
-            <span>
-              <span>{node.label}</span>
-            </span>
-            <span>
-              <el-button
-                style="font-size: 12px;"
-                type="text"
-                on-click={() => this.append(node, data)}
-              >
-                新增
-              </el-button>
-              <el-button
-                style="font-size: 12px;"
-                type="text"
-                on-click={() => this.remove(node, data)}
-              >
-                删除
-              </el-button>
-            </span>
-          </span>
-        );
-      }
     }
+    // renderContent(h, { node, data }) {
+    //   if (node.level === 1) {
+    //     return (
+    //       <span style="flex: 1; display: flex; align-items: center; justify-content: space-between; font-size: 14px; padding-right: 8px;">
+    //         <span>
+    //           <span>{node.label}</span>
+    //         </span>
+    //       </span>
+    //     );
+    //   }
+    //   if (node.level > 4) {
+    //     return (
+    //       <span style="flex: 1; display: flex; align-items: center; justify-content: space-between; font-size: 14px; padding-right: 8px;">
+    //         <span>
+    //           <span>{node.label}</span>
+    //         </span>
+    //         <span>
+    //           <el-button
+    //             style="font-size: 12px;"
+    //             type="text"
+    //             on-click={() => this.remove(node, data)}
+    //           >
+    //             删除
+    //           </el-button>
+    //         </span>
+    //       </span>
+    //     );
+    //   } else {
+    //     return (
+    //       <span style="flex: 1; display: flex; align-items: center; justify-content: space-between; font-size: 14px; padding-right: 8px;">
+    //         <span>
+    //           <span>{node.label}</span>
+    //         </span>
+    //         <span>
+    //           <el-button
+    //             style="font-size: 12px;"
+    //             type="text"
+    //             on-click={() => this.append(node, data)}
+    //           >
+    //             新增
+    //           </el-button>
+    //           <el-button
+    //             style="font-size: 12px;"
+    //             type="text"
+    //             on-click={() => this.remove(node, data)}
+    //           >
+    //             删除
+    //           </el-button>
+    //         </span>
+    //       </span>
+    //     );
+    //   }
+    // }
   }
 };
 </script>

@@ -10,7 +10,7 @@
       >
         <el-form-item label="加盟商账号" prop="pass">
           <el-input
-            v-model="form.account"
+            v-model.trim="form.account"
             autocomplete="off"
             @change="SearchByName"
           ></el-input>
@@ -24,19 +24,23 @@
         </el-form-item>
         <el-form-item label="地区" prop="pass">
           <el-cascader
-            :disabled="flag"
+            ref="tree"
+            :disabled="flag || getAreaLoading"
             placeholder="请选择地区"
             width="200px"
             :options="Region"
             :props="props"
-            change-on-select
+            clearable
             v-model="form.area_ids"
             @change="HandleChange"
-            filterable
+            collapse-tags
           ></el-cascader>
         </el-form-item>
         <el-form-item label="渠道" prop="checkPass">
-          <el-select v-model="form.oem_id" :disabled="flag">
+          <el-select
+            v-model="form.oem_id"
+            :disabled="flag || getChannelLoading"
+          >
             <el-option
               v-for="item in channelList"
               :key="item.id"
@@ -107,18 +111,20 @@
 
         <el-form-item label="地区" prop="pass">
           <el-cascader
+            :disabled="getAreaLoading"
+            ref="tree"
             placeholder="请选择地区"
             width="200px"
             :options="Region"
             :props="props"
-            change-on-select
+            collapse-tags
             v-model="editForm.area_ids"
+            :show-all-levels="false"
             @change="HandleChange"
-            filterable
           ></el-cascader>
         </el-form-item>
         <el-form-item label="渠道" prop="checkPass">
-          <el-select v-model="editForm.oem_id">
+          <el-select v-model="editForm.oem_id" :disabled="getChannelLoading">
             <el-option
               v-for="item in channelList"
               :key="item.id"
@@ -176,7 +182,10 @@ export default {
     return {
       props: {
         value: "area_id",
-        label: "label"
+        label: "label",
+        multiple: true,
+        checkStrictly: false,
+        emitPath: false
       },
       editFlag: false,
       options: [],
@@ -198,7 +207,8 @@ export default {
         mobile_phone: "",
         allow_child_agent: "",
         enable: "",
-        area_ids: ""
+        area_ids: "",
+        oem_id: ""
       },
       enablelList: [
         {
@@ -222,7 +232,9 @@ export default {
       ],
 
       channelList: [], // 渠道类别
-      Region: []
+      Region: [],
+      getAreaLoading: true,
+      getChannelLoading: true
     };
   },
   async created() {
@@ -258,6 +270,7 @@ export default {
         let x = await getAllArea();
         let temp = x.data.data;
         this.Region = this.test1(temp);
+        this.getAreaLoading = false;
       } catch (error) {
         this.$message({
           type: "error",
@@ -285,17 +298,21 @@ export default {
       try {
         let resp = await oemGetall();
         this.channelList = resp.data.data;
-        this.form.oem_id = this.channelList[0].id;
+        if (!this.editFlag) {
+          this.form.oem_id = this.channelList[0].id;
+        }
+        this.getChannelLoading = false;
       } catch (error) {
-        console.log(error);
+        this.$message({
+          type: "error",
+          message: `${error.data.error}`
+        });
       }
     },
     submitForm(name) {
       this.$refs[name].validate(async valid => {
         if (valid) {
           try {
-            // this.form.area_ids =
-            //   this.form.area_ids && this.form.area_ids.toString();
             await createAgent(this.form);
             this.$message({
               showClose: true,
@@ -356,10 +373,12 @@ export default {
       });
       return array;
     },
-    HandleChange(node) {
-      this.form.area_ids = node && node.toString();
-      this.editForm.area_ids = node && node.toString();
+
+    HandleChange(v) {
+      this.form.area_ids = v.toString();
+      this.editForm.area_ids = v.toString();
     },
+
     resetForm() {
       this.$router.push({ path: "/ChannelsFranchisees/index" });
     }

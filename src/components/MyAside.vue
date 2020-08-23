@@ -4,17 +4,7 @@
       :default-openeds="defaultOpeneds"
       default-active="0"
       class="el-menu-vertical-demo"
-      @open="handleOpen"
-      @close="handleClose"
     >
-      <!-- <router-link to="/">
-        <el-menu-item index="0">
-          <i class="el-icon-menu"></i>
-          <span slot="title">
-            首页
-          </span>
-        </el-menu-item>
-      </router-link> -->
       <el-submenu index="1">
         <template slot="title">
           <i class="el-icon-location"></i>
@@ -25,6 +15,10 @@
         </router-link>
         <router-link to="/BasicManagement/AreaManagement">
           <el-menu-item index="1-2">区域管理</el-menu-item>
+        </router-link>
+
+        <router-link to="/BasicManagement/VersionStrategy">
+          <el-menu-item index="1-3">版本策略</el-menu-item>
         </router-link>
       </el-submenu>
       <el-submenu index="2">
@@ -65,19 +59,7 @@ export default {
       defaultOpeneds: ["1", "2", "3"]
     };
   },
-  methods: {
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
-    }
-  },
-  watch: {
-    router(e) {
-      console.log(e);
-    }
-  }
+  methods: {}
 };
 </script>
 <style lang="scss" scoped></style>

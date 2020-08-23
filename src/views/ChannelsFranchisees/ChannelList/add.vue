@@ -6,7 +6,7 @@
           <el-input v-model="form.name" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="游戏中心" prop="checkPass">
-          <el-select v-model="form.game_center_id">
+          <el-select v-model="form.game_center_id" :disabled="channeldisabled">
             <el-option
               v-for="item in channelList"
               :key="item.id"
@@ -16,10 +16,24 @@
             </el-option>
           </el-select>
         </el-form-item>
+
+        <el-form-item label="更新地址" prop="checkPass">
+          <el-select
+            v-model="form.upgrade_version_id"
+            :disabled="updatedisabled"
+          >
+            <el-option
+              v-for="item in UpgradeUrl"
+              :key="item.id"
+              :label="item.upgrade_url"
+              :value="item.id"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+
         <el-form-item label="菜单类型" prop="menu_type">
-          <el-checkbox-group v-model="form.menu_type">
-            <!-- <el-checkbox label="图标+ Banner" name="type"></el-checkbox>
-            <el-checkbox label="卡牌" name="type"></el-checkbox> -->
+          <el-checkbox-group v-model="form.menu_type" :disabled="disabled">
             <el-radio-group v-model="form.menu_type">
               <el-radio :label="1">图标 + Banner</el-radio>
               <el-radio :label="2">卡牌</el-radio>
@@ -33,8 +47,8 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm('form')">保持</el-button>
-          <el-button @click="resetForm('ruleForm')">取消</el-button>
+          <el-button type="primary" @click="submitForm('form')">添加</el-button>
+          <el-button @click="resetForm('ruleForm')">返回</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -57,7 +71,7 @@
 </template>
 
 <script>
-import { getall, oemCreate } from "../../../api/index";
+import { getall, oemCreate, getOemUpgradeUrl } from "../../../api/index";
 export default {
   name: "add",
   data() {
@@ -66,8 +80,11 @@ export default {
         name: "",
         game_center_id: "",
         enable: "1",
-        menu_type: ""
+        menu_type: 1,
+        upgrade_version_id: ""
       },
+      channeldisabled: true,
+      updatedisabled: true,
       enablelList: [
         {
           id: 1,
@@ -78,11 +95,13 @@ export default {
           name: "禁用"
         }
       ],
-      channelList: [] // 渠道类别
+      channelList: [], // 渠道类别，更新地址
+      UpgradeUrl: ""
     };
   },
   created() {
     this.HandleGetAll();
+    this.HandleGetUdate();
   },
   methods: {
     async HandleGetAll() {
@@ -92,6 +111,20 @@ export default {
         this.form.game_center_id = this.channelList[0].id;
       } catch (error) {
         console.log(error);
+      } finally {
+        this.channeldisabled = false;
+      }
+    },
+
+    async HandleGetUdate() {
+      try {
+        let resp = await getOemUpgradeUrl();
+        this.UpgradeUrl = resp.data.data;
+        this.form.upgrade_version_id = this.UpgradeUrl[0].id;
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.updatedisabled = false;
       }
     },
     submitForm(name) {
@@ -119,8 +152,8 @@ export default {
         }
       });
     },
-    resetForm(name) {
-      this.$refs[name].resetFields();
+    resetForm() {
+      this.$router.push({ path: "/ChannelsFranchisees/ChannelList" });
     }
   }
 };

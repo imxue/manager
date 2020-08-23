@@ -15,7 +15,7 @@ Vue.filter("formatTime", function(value) {
   let hours = date.getHours();
   let minutes = date.getMinutes();
   let sec = date.getSeconds();
-  return `${year}-${months}-${days} ${hours}:${minutes}:${sec}`;
+  return `${year}-${(months + "").length === 1 ? "0" + months : months}-${(days + "").length === 1 ? "0" + days : days} ${(hours + "").length === 1 ? "0" + hours : hours}:${(minutes + "").length === 1 ? "0" + minutes : minutes}:${(sec + "").length === 1 ? "0" + sec : sec}`;
 });
 new Vue({
   router,

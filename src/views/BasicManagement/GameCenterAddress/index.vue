@@ -15,25 +15,26 @@
         highlight-current-row
         v-loading="loading"
       >
-        <el-table-column type="index" label="编号" width="50">
+        <el-table-column type="index" label="编号" width="80">
         </el-table-column>
-        <el-table-column prop="name" label="名称" width="180">
+        <el-table-column prop="name" label="名称" width="158">
         </el-table-column>
-        <el-table-column prop="address" label="地址（域名或IP）" width="180">
+        <el-table-column prop="address" label="地址（域名或IP）" width="200">
         </el-table-column>
-        <el-table-column prop="enable" label="状态" width="100">
+        <el-table-column prop="enable" label="状态" width="80">
           <template slot-scope="scope">
             <span>{{ scope.row.enable === 1 ? "启用" : "禁用" }}</span>
           </template>
         </el-table-column>
 
-        <el-table-column prop="operator" label="操作人"> </el-table-column>
-        <el-table-column prop="update_time" label="操作时间" width="180">
+        <el-table-column prop="operator" label="操作人" width="80">
+        </el-table-column>
+        <el-table-column prop="update_time" label="操作时间" width="158">
           <template slot-scope="scope">
             <span>{{ scope.row.update_time | formatTime }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="create_time" label="创建时间" width="180">
+        <el-table-column prop="create_time" label="创建时间" width="158">
           <template slot-scope="scope">
             <span>{{ scope.row.create_time | formatTime }}</span>
           </template>

@@ -16,9 +16,9 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('rules')"
-            >提交</el-button
+            >添加</el-button
           >
-          <el-button @click="resetForm('rules')">重置</el-button>
+          <el-button @click="resetForm('ruleForm')">返回</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -96,8 +96,9 @@ export default {
         }
       });
     },
-    resetForm(name) {
-      this.$refs[name].resetFields();
+
+    resetForm() {
+      this.$router.push({ path: "/BasicManagement/GameCenter" });
     }
   }
 };

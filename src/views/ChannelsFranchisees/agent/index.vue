@@ -4,6 +4,12 @@
       <router-link to="/ChannelsFranchisees/add">
         <el-button type="primary">添加加盟商</el-button>
       </router-link>
+      <el-input
+        v-model="account"
+        style="width:200px;marginLeft:10px;"
+        placeholder="手机号/邮箱"
+        @input="HandleAccountChange"
+      ></el-input>
     </div>
     <div class="fl-main">
       <el-table
@@ -14,7 +20,7 @@
       >
         <el-table-column type="index" label="编号" width="50">
         </el-table-column>
-        <el-table-column prop="user_name" label="联系人"> </el-table-column>
+        <el-table-column prop="user_name" label="用户名"> </el-table-column>
         <el-table-column prop="mobile_phone" label="联系电话" width="150">
         </el-table-column>
         <el-table-column prop="oem" label="渠道"> </el-table-column>
@@ -34,7 +40,7 @@
             <span>{{ scope.row.create_time | formatTime }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" width="150">
           <template slot-scope="scope">
             <el-button
               type="primary"
@@ -77,12 +83,17 @@ export default {
       pageinfo: {
         count: 0
       },
+      account: "",
       limit: 10,
       offset: 0
     };
   },
   created() {
-    this.HandleGetAllAgent({ offset: 0, limit: 10, orderby: "" });
+    this.HandleGetAllAgent({
+      offset: 0,
+      limit: 10,
+      orderby: "create_time desc"
+    });
   },
   methods: {
     async handleEdit(data) {
@@ -114,13 +125,21 @@ export default {
         this.HandleGetAllAgent({
           offset: this.offset,
           limit: this.limit,
-          orderby: ""
+          orderby: "create_time"
         });
       }
     },
     HandleChange(page) {
       this.offset = (page - 1) * this.limit;
       this.HandleGetAllAgent({ offset: this.offset, limit: this.limit });
+    },
+    HandleAccountChange(account) {
+      this.account = account;
+      this.HandleGetAllAgent({
+        offset: this.offset,
+        limit: this.limit,
+        account: this.account
+      });
     },
     resetForm(name) {
       this.dialogFormVisible = false;

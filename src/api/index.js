@@ -71,9 +71,14 @@ export function oemEdit(data) {
 }
 
 // 获取代理商
-export function getAllAgentInfo({ offset, limit, orderby }) {
+export function getAllAgentInfo({
+  offset,
+  limit,
+  orderby = "create_time desc",
+  account = ""
+}) {
   return request({
-    url: `/admin/agent/getall?offset=${offset}&limit=${limit}&orderby=${orderby}`,
+    url: `/admin/agent/getall?offset=${offset}&limit=${limit}&orderby=${orderby}&account=${account}`,
     method: "GET"
   });
 }
@@ -225,5 +230,41 @@ export function deleteRole(id) {
   return request({
     url: `/admin/role/${id}`,
     method: "delete"
+  });
+}
+
+export function getalloemenabled() {
+  return request({
+    url: `/admin/oem/getallenabled`,
+    method: "get"
+  });
+}
+
+export function getOemUpgradeUrl() {
+  return request({
+    url: `/admin/upgrade_version/getall`,
+    method: "get"
+  });
+}
+
+export function editOemUpgradeUrl(data) {
+  return request({
+    url: `/admin/upgrade_version/edit`,
+    method: "post",
+    data
+  });
+}
+export function deleteOemUpgradeUrl(id) {
+  return request({
+    url: `/admin/upgrade_version/${id}`,
+    method: "delete"
+  });
+}
+
+export function addOemUpgradeUrl(data) {
+  return request({
+    url: `/admin/upgrade_version/add`,
+    method: "post",
+    data
   });
 }

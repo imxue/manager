@@ -24,7 +24,7 @@
             type="primary"
             plain
             @click="handleallocate(scope.row)"
-            >分配权限</el-button
+            >分配角色</el-button
           >
         </template></el-table-column
       >
@@ -38,11 +38,7 @@
       @current-change="HandleChange"
     >
     </el-pagination>
-    <el-dialog
-      title="提示"
-      :visible.sync="dialogVisible"
-      :before-close="handleClose"
-    >
+    <el-dialog title="提示" :visible.sync="dialogVisible">
       <el-transfer
         :props="{
           key: 'id',
@@ -53,7 +49,7 @@
         :data="Roledata"
       ></el-transfer>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button @click="HandleClose">取 消</el-button>
         <el-button type="primary" @click="HandleCorfim">确 定</el-button>
       </span>
     </el-dialog>
@@ -71,11 +67,11 @@ export default {
       value: [],
       Roledata: [],
       selectedId: "",
-      loading: false,
+      loading: true,
       pageinfo: {
         count: 0
       },
-      limit: 5,
+      limit: 13,
       offset: 0
     };
   },
@@ -84,10 +80,8 @@ export default {
     this.HandleGetUser({ offset: 0, limit: this.limit });
   },
   methods: {
-    handleClose() {},
     async HandleGetUser(data) {
       try {
-        this.loading = true;
         let resp = await getallUser(data);
         this.List = resp.data.data.data;
         this.pageinfo = resp.data.data.pageino;
@@ -138,6 +132,9 @@ export default {
     HandleChange(page) {
       this.offset = (page - 1) * this.limit;
       this.HandleGetUser({ offset: this.offset, limit: this.limit });
+    },
+    HandleClose() {
+      this.dialogVisible = false;
     }
   }
 };

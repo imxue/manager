@@ -4,6 +4,7 @@ import layout from "../layout/index";
 import index from "../views/index";
 import GameCenter from "../views/BasicManagement/GameCenterAddress/index.vue";
 import AddGameCenter from "../views/BasicManagement/GameCenterAddress/add.vue";
+import VersionStrategy from "../views/BasicManagement/VersionStrategy.vue";
 import AreaManagement from "../views/BasicManagement/AreaManagement.vue";
 import ChannelList from "../views/ChannelsFranchisees/ChannelList/index.vue";
 import AddChannelList from "../views/ChannelsFranchisees/ChannelList/add.vue";
@@ -49,6 +50,11 @@ const routes = [
         path: "AreaManagement",
         name: "Area Management",
         component: AreaManagement
+      },
+      {
+        path: "VersionStrategy",
+        name: "VersionStrategy",
+        component: VersionStrategy
       }
     ]
   },
